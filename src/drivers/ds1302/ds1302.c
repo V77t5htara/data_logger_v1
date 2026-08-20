@@ -63,13 +63,17 @@ static void write_byte(uint8_t v)
 static uint8_t read_byte(void)
 {
     uint8_t v = 0;
+
     io_input();
+
     for (uint8_t i = 0; i < 8; ++i) {
         clk(1);
+        clk(0);
+
         if (HAL_GPIO_ReadPin(DS1302_IO_PORT, DS1302_IO_PIN) == GPIO_PIN_SET)
             v |= (uint8_t)(1U << i);
-        clk(0);
     }
+
     return v;
 }
 
